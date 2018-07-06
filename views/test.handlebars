@@ -1,4 +1,4 @@
-<form id="spot" action="/upload" method="post" enctype="multipart/form-data">
+<form id="spot" action="/api/upload" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <img id="placeholder" src="#" alt="uploaded image" style="display: none">
         <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
@@ -28,3 +28,59 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script>
+
+    function displayImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#placeholder')
+                    .attr('src', e.target.result)
+                    .css("display", "block")
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(document).ready(function() {  
+        var spotForm = $("form#spot");
+
+        spotForm.on("submit", function(event) {
+            event.preventDefault();
+
+            var locations = [];
+            $.each($("select#type-input option:selected"), function(){            
+                locations.push($(this).val());
+            });
+
+            var tods = [];
+            $.each($("select#tod-input option:selected"), function(){            
+                tods.push($(this).val());
+            });
+
+            var formData = new FormData();  
+
+            formData.append('tod', tods);
+            formData.append('type', locations);
+            formData.append('description', $("textarea#description-input").val().trim());
+            formData.append('photo', $("input#file-input")[0].files[0]);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/upload',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    document.getElementById("spot").reset();
+                    $("#placeholder").css("display", "none");
+                    alert(data);
+                }
+            });
+        });
+    });
+</script>
