@@ -1,16 +1,10 @@
-// var db = require("../models");
-// var passport = require("../config/passport");
-
-//Access Key ID:AKIAIV3PHOY5GHE23SXA
-//Secret Access Key: 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
-
 var aws = require('aws-sdk');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 
 aws.config.update({
-    secretAccessKey: 'hY9sXUk6PH6sY35kjBbMDlWrIYMQ0Y71THrIR5x2',
-    accessKeyId: 'AKIAIV3PHOY5GHE23SXA',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     region: 'us-east-1'
 });
 
@@ -24,7 +18,7 @@ module.exports = function(app) {
         bucket: "snap-spot",
         key: function (req, file, cb) {
             console.log(file);
-            cb(null, file.fieldname + Date.now()); //use Date.now() for unique file keys
+            cb(null, file.fieldname + Date.now()); 
         }
     })
   });
