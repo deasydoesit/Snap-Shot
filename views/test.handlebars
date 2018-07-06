@@ -1,4 +1,30 @@
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" accept="image/*" name="photo">
-    <input type="submit" value="Upload">
+<form id="spot" action="/upload" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <img id="placeholder" src="#" alt="uploaded image" style="display: none">
+        <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
+    </div>
+    <div class="form-group">
+        <label for="tod">Select time(s) of day to best take photo</label>
+        <select multiple class="form-control" id="tod-input">
+            <option>Sunrise</option>
+            <option>Day</option>
+            <option>Sunset</option>
+            <option>Evening</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="type">Select location type(s)</label>
+        <select multiple class="form-control" id="type-input">
+            <option>Historical</option>
+            <option>Vista</option>
+            <option>Trendy</option>
+            <option>Street Art</option>
+            <option>Nature</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="description">Provide a brief description (120 characters)</label>
+        <textarea class="form-control" id="description-input" rows="2"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
