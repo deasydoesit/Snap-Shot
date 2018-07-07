@@ -48,6 +48,11 @@
 
     $(document).ready(function() {  
         var spotForm = $("form#spot");
+        var historical = false;
+        var vista = false;
+        var trendy = false;
+        var streetArt = false;
+        var nature = false;
 
         spotForm.on("submit", function(event) {
             event.preventDefault();
@@ -57,6 +62,22 @@
                 locations.push($(this).val());
             });
 
+            if (locations.indexOf("Historical") != -1) {
+                historical = true;
+            };
+            if (locations.indexOf("Vista") != -1) {
+                vista = true;
+            };
+            if (locations.indexOf("Treny") != -1) {
+                trendy = true;
+            };
+            if (locations.indexOf("Street Art") != -1) {
+                streetArt = true;
+            };
+            if (locations.indexOf("Nature") != -1) {
+                nature = true;
+            };
+
             var tods = [];
             $.each($("select#tod-input option:selected"), function(){            
                 tods.push($(this).val());
@@ -65,7 +86,11 @@
             var formData = new FormData();  
 
             formData.append('tod', tods);
-            formData.append('type', locations);
+            formData.append('historical', historical);
+            formData.append('vista', vista);
+            formData.append('trendy', trendy);
+            formData.append('street_art', streetArt);
+            formData.append('nature', nature);
             formData.append('description', $("textarea#description-input").val().trim());
             formData.append('photo', $("input#file-input")[0].files[0]);
 
