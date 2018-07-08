@@ -4,6 +4,11 @@
         <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
     </div>
     <div class="form-group">
+        <label for="first">Location</label>
+        <input type="text" class="form-control" id="location-input" data-lat="" data-long="" placeholder="Location">
+        <a id="location-button" class="btn btn-primary">Get Location</a>
+    </div>
+    <div class="form-group">
         <label for="tod">Select time(s) of day to best take photo</label>
         <select multiple class="form-control" id="tod-input">
             <option>Sunrise</option>
@@ -29,6 +34,14 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <script>
+    function initLocation() {
+        var input = document.getElementById('location-input');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4fhRdyH3wpy2j9MQ9YBt6NVzea67eD4&libraries=places&callback=initLocation"></script>
+<script>
+    var geocoder = new google.maps.Geocoder();
 
     function displayImage(input) {
         if (input.files && input.files[0]) {
@@ -46,7 +59,12 @@
         }
     }
 
+    google.maps.event.addDomListener(window, 'load', initLocation);
+
     $(document).ready(function() {  
+        var locationButton = $("#location-button");
+        var locationInput = $("#location-input");
+
         var spotForm = $("form#spot");
         var historical = false;
         var vista = false;
@@ -54,9 +72,35 @@
         var streetArt = false;
         var nature = false;
 
+        //get location data on location button click, insert location data into field, and update location data-long and data-lat
+        locationButton.on("click", function(){
+            locationInput.attr("placeholder", "Getting location, please wait..");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+                    locationInput.val("Latitude: " + lat + ", Longitude: " + long);
+                    locationInput.attr({"data-lat": lat, "data-long": long});
+                    console.log("hello");
+                });
+            } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        });
+
         spotForm.on("submit", function(event) {
             event.preventDefault();
 
+            geocoder.geocode({address: locationInput.val()}, function(results, status) {
+                if (status === 'OK') {
+                    console.log(results[0].geometry.location.lat());
+                    console.log(results[0].geometry.location.lng());
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+            /*
             var locations = [];
             $.each($("select#type-input option:selected"), function(){            
                 locations.push($(this).val());
@@ -105,7 +149,7 @@
                     $("#placeholder").css("display", "none");
                     alert(data);
                 }
-            });
-        });
+            });*/
+        }); 
     });
 </script>
