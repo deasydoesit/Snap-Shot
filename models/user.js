@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     last_name: {
         type: DataTypes.STRING,
         allowNull: false,
-      }, 
+    }, 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,6 +23,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   });
+
+  User.associate = function(models) {
+    User.hasMany(models.Favorite, {
+      onDelete: "cascade"
+    });
+    User.hasMany(models.Spot, {
+      onDelete: "cascade"
+    });
+  };
 
   User.prototype.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);

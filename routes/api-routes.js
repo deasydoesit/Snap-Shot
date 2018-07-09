@@ -55,9 +55,9 @@ module.exports = function(app) {
 
     app.post("/api/upload", upload.single('photo'), function (req, res, next) {
         
-        console.log(path);
+        console.log(req.body);
+        console.log(typeof req.user.id);
         db.Spot.create({
-            uploader_id: req.user.id,
             location: req.body.location,
             lat: req.body.lat,
             lng: req.body.lng,
@@ -67,7 +67,9 @@ module.exports = function(app) {
             trendy: req.body.trendy,
             street_art: req.body.street_art,
             nature: req.body.nature,
-            tod: req.body.tod
+            tod: req.body.tod,
+            description: req.body.description,
+            UserId: req.user.id
         }).then(function() {
             res.send("Uploaded!");
         }).catch(function(err) {
@@ -78,11 +80,12 @@ module.exports = function(app) {
 
     // GET route for getting all of the spots
     app.get("/api/spots/", function (req, res) {
-        db.Spots.findAll({})
+        db.Spot.findAll({})
             .then(function (dbSpot) {
                 res.json(dbSpot);
             });
     });
+
     app.get("/api/spots/:type/", function (req, res) {
         var typeArr = req.params.type.split("+");
         var typeObj = {};
@@ -90,7 +93,7 @@ module.exports = function(app) {
             typeObj[typeArr[i]] = 1;
         }
 
-        db.Spots.findAll({
+        db.Spot.findAll({
             where: typeObj
         })
             .then(function (dbSpot) {
@@ -98,15 +101,15 @@ module.exports = function(app) {
             });
     });
 
-    app.get("/api/spots/:type/:ToD", function (req, res) {
+    app.get("/api/spots/:type/:tod", function (req, res) {
         var typeArr = req.params.type.split("+");
         var typeObj = {};
         for (var i = 0; i < typeArr.length; i++) {
             typeObj[typeArr[i]] = 1;
         }
-        typeObj["ToD"] = req.params.ToD
+        typeObj["tod"] = req.params.tod;
 
-        db.Spots.findAll({
+        db.Spot.findAll({
             where: typeObj
         })
             .then(function (dbSpot) {
@@ -114,15 +117,15 @@ module.exports = function(app) {
             });
     });
 
-    app.get("/api/spots/:type/:ToD/popular", function (req, res) {
+    app.get("/api/spots/:type/:tod/popular", function (req, res) {
         var typeArr = req.params.type.split("+");
         var typeObj = {};
         for (var i = 0; i < typeArr.length; i++) {
             typeObj[typeArr[i]] = 1;
         }
-        typeObj["ToD"] = req.params.ToD
+        typeObj["tod"] = req.params.tod
 
-        db.Spots.findAll({
+        db.Spot.findAll({
             where: typeObj
         })
             .then(function (dbSpot) {
@@ -176,14 +179,14 @@ module.exports = function(app) {
 
 
     app.put("/api/spots/:id", function (req, res) {
-        db.Spots.findById(req.params.id).then(Spots => {
-            return db.Spots.increment('popularity', { by: 1 })
+        db.Spot.findById(req.params.id).then(Spot => {
+            return db.Spot.increment('popularity', { by: 1 })
         })
 
     });
 
     app.delete("/api/favorites/:id/:userid", function (req, res) {
-        db.Favorites.destroy({
+        db.Favorite.destroy({
             where: {
                 id: req.params.id,
                 user_id: req.params.userid
