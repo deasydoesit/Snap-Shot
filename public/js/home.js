@@ -165,7 +165,6 @@ $(document).ready(function () {
         categoryArr.push("trendy")
         concatType();
         getByType();
-        renderData();
     });
 
     $(document).on("click", ".historical-button", function () {
@@ -173,7 +172,6 @@ $(document).ready(function () {
         categoryArr.push("historical")
         concatType();
         getByType();
-        renderData();
     });
 
     $(document).on("click", ".streetart-button", function () {
@@ -181,7 +179,6 @@ $(document).ready(function () {
         categoryArr.push("streetart")
         concatType();
         getByType();
-        renderData();
     });
 
     $(document).on("click", ".vista-button", function () {
@@ -189,7 +186,6 @@ $(document).ready(function () {
         categoryArr.push("vista")
         concatType();
         getByType();
-        renderData();
     });
 
     $(document).on("click", ".nature-button", function () {
@@ -197,7 +193,6 @@ $(document).ready(function () {
         categoryArr.push("nature")
         concatType();
         getByType();
-        renderData();
     });
 
     $(document).on("click", "#global", function () {
