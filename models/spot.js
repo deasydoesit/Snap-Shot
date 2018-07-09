@@ -6,11 +6,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     location: {
       type: DataTypes.STRING,
-      allowNull: true //need to change later
+      allowNull: true 
+    }, 
+    lat: {
+        type: DataTypes.DECIMAL(10,7),
+        allowNull: false //need to change later
+    }, 
+    lng: {
+        type: DataTypes.DECIMAL(10,7),
+        allowNull: false //need to change later
     }, 
     path: {
       type: DataTypes.STRING,
-      allowNull: false //need to change later
+      allowNull: false 
     },
     historical: {
       type: DataTypes.BOOLEAN,

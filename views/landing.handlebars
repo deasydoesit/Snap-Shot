@@ -46,15 +46,18 @@
     
 $(document).ready(function() {
 
+    var signUpForm = $("form.signup");
+    var firstNameInput = $("input#firstName-input");
+    var lastNameInput = $("input#lastName-input");
+    var emailInput = $("input#email-input");
+    var passwordInput = $("input#password-input");
+    
+    var loginForm = $("form.login");
+    var emailLogin = $("input#email-login");
+    var passwordLogin = $("input#password-login");
+
     //sign up
-        var signUpForm = $("form.signup");
-        var firstNameInput = $("input#firstName-input");
-        var lastNameInput = $("input#lastName-input");
-        var emailInput = $("input#email-input");
-        var passwordInput = $("input#password-input");
-
         signUpForm.on("submit", function(event) {
-
             event.preventDefault();
 
             var userData = {
@@ -94,15 +97,11 @@ $(document).ready(function() {
     //sign up
 
     //login 
-        var loginForm = $("form.login");
-        var emailInput = $("input#email-login");
-        var passwordInput = $("input#password-login");
-
         loginForm.on("submit", function(event) {
             event.preventDefault();
             var userData = {
-                email: emailInput.val().trim(),
-                password: passwordInput.val().trim()
+                email: emailLogin.val().trim(),
+                password: passwordLogin.val().trim()
             };
         
             if (!userData.email || !userData.password) {
@@ -110,8 +109,8 @@ $(document).ready(function() {
             }
 
             loginUser(userData.email, userData.password);
-            emailInput.val("");
-            passwordInput.val("");
+            emailLogin.val("");
+            passwordLogin.val("");
         });
 
         function loginUser(email, password) {

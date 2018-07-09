@@ -33,6 +33,11 @@ module.exports = function(app) {
         res.json("test");
     });
 
+    app.get("/logout", function(req, res) {
+        req.logout();
+        res.redirect("/");
+    });
+
     app.post("/api/signup", function(req, res) {
         console.log(req.body);
         db.User.create({
@@ -45,7 +50,7 @@ module.exports = function(app) {
         }).catch(function(err) {
             console.log(err);
             res.json(err);
-        });
+        }); 
     });
 
     app.post("/api/upload", upload.single('photo'), function (req, res, next) {
@@ -53,6 +58,9 @@ module.exports = function(app) {
         console.log(path);
         db.Spot.create({
             uploader_id: req.user.id,
+            location: req.body.location,
+            lat: req.body.lat,
+            lng: req.body.lng,
             path: path,
             historical: req.body.historical,
             vista: req.body.vista,

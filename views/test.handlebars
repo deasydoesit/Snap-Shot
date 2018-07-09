@@ -1,39 +1,76 @@
-<form id="spot" action="/api/upload" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <img id="placeholder" src="#" alt="uploaded image" style="display: none">
-        <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
+<style>
+    .pac-container {
+        z-index: 1051 !important;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <a class="navbar-brand" href="/logout">
+            Logout
+        </a>
+        <button id="modal-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#spotModal">
+            Submit Spot
+        </button>
     </div>
-    <div class="form-group">
-        <label for="first">Location</label>
-        <input type="text" class="form-control" id="location-input" data-lat="" data-long="" placeholder="Location">
-        <a id="location-button" class="btn btn-primary">Get Location</a>
+</nav>
+
+<div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="spot" action="/api/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <img id="placeholder-img" src="#" alt="uploaded image" style="display: none">
+                        <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
+                    </div>
+                    <div class="form-group">
+                        <label for="first">Location</label>
+                        <input type="text" class="form-control" id="location-input" data-lat="" data-long="" placeholder="Location">
+                        <a id="location-button" class="btn btn-primary">Get Location</a>
+                    </div>
+                    <div class="form-group">
+                        <label for="tod">Select best time to take photo</label>
+                        <select class="form-control" id="tod-input">
+                            <option>Sunrise</option>
+                            <option>Day</option>
+                            <option>Sunset</option>
+                            <option>Evening</option>
+                            <option>All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Select location type(s)</label>
+                        <select multiple class="form-control" id="type-input">
+                            <option>Historical</option>
+                            <option>Vista</option>
+                            <option>Trendy</option>
+                            <option>Street Art</option>
+                            <option>Nature</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Provide a brief description (120 characters)</label>
+                        <textarea class="form-control" id="description-input" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="tod">Select time(s) of day to best take photo</label>
-        <select multiple class="form-control" id="tod-input">
-            <option>Sunrise</option>
-            <option>Day</option>
-            <option>Sunset</option>
-            <option>Evening</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="type">Select location type(s)</label>
-        <select multiple class="form-control" id="type-input">
-            <option>Historical</option>
-            <option>Vista</option>
-            <option>Trendy</option>
-            <option>Street Art</option>
-            <option>Nature</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="description">Provide a brief description (120 characters)</label>
-        <textarea class="form-control" id="description-input" rows="2"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<script>
+</div>
+
+<script> //initialize google maps autocomplete
     function initLocation() {
         var input = document.getElementById('location-input');
         var autocomplete = new google.maps.places.Autocomplete(input);
@@ -41,16 +78,16 @@
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4fhRdyH3wpy2j9MQ9YBt6NVzea67eD4&libraries=places&callback=initLocation"></script>
 <script>
-    var geocoder = new google.maps.Geocoder();
+    var geocoder = new google.maps.Geocoder(); //initialize gooble maps geocoder
 
-    function displayImage(input) {
+    function displayImage(input) { //function to display images after being provided by user
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#placeholder')
+                $('#placeholder-img')
                     .attr('src', e.target.result)
-                    .css("display", "block")
+                    .css('display', 'block')
                     .width(150)
                     .height(200);
             };
@@ -59,85 +96,93 @@
         }
     }
 
-    google.maps.event.addDomListener(window, 'load', initLocation);
-
     $(document).ready(function() {  
-        var locationButton = $("#location-button");
-        var locationInput = $("#location-input");
-
-        var spotForm = $("form#spot");
+        var locationButton = $('#location-button');
+        var locationInput = $('#location-input');
+        var spotForm = $('form#spot');
+        var modalBtn = $('#modal-btn');
         var historical = false;
         var vista = false;
         var trendy = false;
         var streetArt = false;
         var nature = false;
+        var lat;
+        var lng;
 
-        //get location data on location button click, insert location data into field, and update location data-long and data-lat
-        locationButton.on("click", function(){
-            locationInput.attr("placeholder", "Getting location, please wait..");
+        google.maps.event.addDomListener(modalBtn, 'click', initLocation); //listen for location filed data entry by user for autocomplete
+
+        locationButton.on('click', function(){ //get location data on location button click
+            locationInput.attr('placeholder', 'Getting location, please wait..');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    locationInput.val("Latitude: " + lat + ", Longitude: " + long);
-                    locationInput.attr({"data-lat": lat, "data-long": long});
-                    console.log("hello");
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    locationInput.val('Latitude: ' + lat + ', Longitude: ' + lng)
+                            .attr({'data-lat': lat, 'data-long': lng, 'placeholder': 'Location'});
                 });
             } else { 
-                x.innerHTML = "Geolocation is not supported by this browser.";
+                x.innerHTML = 'Geolocation is not supported by this browser.';
             }
         });
 
-        spotForm.on("submit", function(event) {
+        spotForm.on('submit', function(event) { //package form data and submit
+
+            console.log("jello");
             event.preventDefault();
 
-            geocoder.geocode({address: locationInput.val()}, function(results, status) {
-                if (status === 'OK') {
-                    console.log(results[0].geometry.location.lat());
-                    console.log(results[0].geometry.location.lng());
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
+            if (locationInput.attr('data-lat') == "") { //if the user isn't using their lat/lng location, find lat/lng
+                geocoder.geocode({address: locationInput.val()}, function(results, status) {
+                    if (status === 'OK') {
+                        lat = results[0].geometry.location.lat();
+                        lng = results[0].geometry.location.lng();
+                        createForm();
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            } else {
+                createForm();
+            }
+        }); 
 
-            /*
-            var locations = [];
-            $.each($("select#type-input option:selected"), function(){            
+        function createForm() { //function to assist in form prep and submission
+            //generate boolean for location type
+            var locations = []; 
+            $.each($('select#type-input option:selected'), function(){            
                 locations.push($(this).val());
             });
 
-            if (locations.indexOf("Historical") != -1) {
+            if (locations.indexOf('Historical') != -1) {
                 historical = true;
             };
-            if (locations.indexOf("Vista") != -1) {
+            if (locations.indexOf('Vista') != -1) {
                 vista = true;
             };
-            if (locations.indexOf("Treny") != -1) {
+            if (locations.indexOf('Treny') != -1) {
                 trendy = true;
             };
-            if (locations.indexOf("Street Art") != -1) {
+            if (locations.indexOf('Street Art') != -1) {
                 streetArt = true;
             };
-            if (locations.indexOf("Nature") != -1) {
+            if (locations.indexOf('Nature') != -1) {
                 nature = true;
             };
 
-            var tods = [];
-            $.each($("select#tod-input option:selected"), function(){            
-                tods.push($(this).val());
-            });
-
+            //prep and create form object
             var formData = new FormData();  
 
-            formData.append('tod', tods);
+            formData.append('lat', lat);
+            formData.append('lng', lng);
+            formData.append('tod', $('select#tod-input option:selected').val());
             formData.append('historical', historical);
             formData.append('vista', vista);
             formData.append('trendy', trendy);
             formData.append('street_art', streetArt);
             formData.append('nature', nature);
-            formData.append('description', $("textarea#description-input").val().trim());
-            formData.append('photo', $("input#file-input")[0].files[0]);
+            formData.append('description', $('textarea#description-input').val().trim());
+            formData.append('photo', $('input#file-input')[0].files[0]);
 
+            //transmit form object server-side
             $.ajax({
                 type: 'POST',
                 url: '/api/upload',
@@ -145,11 +190,11 @@
                 processData: false,
                 contentType: false,
                 success: function(data){
-                    document.getElementById("spot").reset();
-                    $("#placeholder").css("display", "none");
+                    document.getElementById('spot').reset();
+                    $('#placeholder-img').css('display', 'none');
                     alert(data);
                 }
-            });*/
-        }); 
+            });
+        }
     });
 </script>
