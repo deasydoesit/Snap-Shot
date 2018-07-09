@@ -1,20 +1,16 @@
 module.exports = function(sequelize, DataTypes) {
   var Spot = sequelize.define("Spot", {
-    uploader_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     location: {
       type: DataTypes.STRING,
       allowNull: true 
     }, 
     lat: {
         type: DataTypes.DECIMAL(10,7),
-        allowNull: false //need to change later
+        allowNull: false 
     }, 
     lng: {
         type: DataTypes.DECIMAL(10,7),
-        allowNull: false //need to change later
+        allowNull: false 
     }, 
     path: {
       type: DataTypes.STRING,
@@ -43,8 +39,25 @@ module.exports = function(sequelize, DataTypes) {
     tod: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    popularity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
+
+  Spot.associate = function(models) {
+    Spot.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
+  };
 
   return Spot;
   

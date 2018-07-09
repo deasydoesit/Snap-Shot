@@ -21,6 +21,7 @@
         var locationInput = $('#location-input');
         var spotForm = $('form#spot');
         var modalBtn = $('#modal-btn');
+        var location = "";
         var historical = false;
         var vista = false;
         var trendy = false;
@@ -28,6 +29,7 @@
         var nature = false;
         var lat;
         var lng;
+        
 
         google.maps.event.addDomListener(modalBtn, 'click', initLocation); //listen for location filed data entry by user for autocomplete
 
@@ -54,6 +56,7 @@
                     if (status === 'OK') {
                         lat = results[0].geometry.location.lat();
                         lng = results[0].geometry.location.lng();
+                        location = locationInput.val();
                         createForm();
                     } else {
                         alert('Geocode was not successful for the following reason: ' + status);
@@ -90,6 +93,7 @@
             //prep and create form object
             var formData = new FormData();  
 
+            formData.append('location', location);
             formData.append('lat', lat);
             formData.append('lng', lng);
             formData.append('tod', $('select#tod-input option:selected').val());
