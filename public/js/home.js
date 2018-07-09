@@ -1,83 +1,3 @@
-<style>
-    .pac-container {
-        z-index: 1051 !important;
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <a class="navbar-brand" href="/logout">
-            Logout
-        </a>
-        <button id="modal-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#spotModal">
-            Submit Spot
-        </button>
-    </div>
-</nav>
-
-<div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="spot" action="/api/upload" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <img id="placeholder-img" src="#" alt="uploaded image" style="display: none">
-                        <input type="file" accept="image/*" name="photo" id="file-input" class="form-control-file" onchange="displayImage(this);">
-                    </div>
-                    <div class="form-group">
-                        <label for="first">Location</label>
-                        <input type="text" class="form-control" id="location-input" data-lat="" data-long="" placeholder="Location">
-                        <a id="location-button" class="btn btn-primary">Get Location</a>
-                    </div>
-                    <div class="form-group">
-                        <label for="tod">Select best time to take photo</label>
-                        <select class="form-control" id="tod-input">
-                            <option>Sunrise</option>
-                            <option>Day</option>
-                            <option>Sunset</option>
-                            <option>Evening</option>
-                            <option>All</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="type">Select location type(s)</label>
-                        <select multiple class="form-control" id="type-input">
-                            <option>Historical</option>
-                            <option>Vista</option>
-                            <option>Trendy</option>
-                            <option>Street Art</option>
-                            <option>Nature</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Provide a brief description (120 characters)</label>
-                        <textarea class="form-control" id="description-input" rows="2"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script> //initialize google maps autocomplete
-    function initLocation() {
-        var input = document.getElementById('location-input');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-    }
-</script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4fhRdyH3wpy2j9MQ9YBt6NVzea67eD4&libraries=places&callback=initLocation"></script>
-<script>
     var geocoder = new google.maps.Geocoder(); //initialize gooble maps geocoder
 
     function displayImage(input) { //function to display images after being provided by user
@@ -127,7 +47,6 @@
 
         spotForm.on('submit', function(event) { //package form data and submit
 
-            console.log("jello");
             event.preventDefault();
 
             if (locationInput.attr('data-lat') == "") { //if the user isn't using their lat/lng location, find lat/lng
@@ -197,4 +116,3 @@
             });
         }
     });
-</script>

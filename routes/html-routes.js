@@ -16,8 +16,8 @@ module.exports = function(app) {
   });
 
   //experimental route here for testing upload
-  app.get("/test", function(req, res) {
-    res.render("test");
-  });
+  // app.get("/home", function(req, res) {
+  //   res.render("home");
+  // });
 
 };
