@@ -88,18 +88,27 @@ module.exports = function(app) {
 
     app.get("/api/spots/:type/", function (req, res) {
         var typeArr = req.params.type.split("+");
-        var typeObj = {};
+    
+        var typeArray = [];
+    
         for (var i = 0; i < typeArr.length; i++) {
-            typeObj[typeArr[i]] = 1;
+          var thisType = typeArr[i];
+          var typeObj = {
+            thisType: true
+          };
+          typeArray.push(typeObj)
         }
-
-        db.Spot.findAll({
-            where: typeObj
+    
+        db.Spots.findAll({
+          where: {
+            [Op.or]: typeArray
+          }
         })
-            .then(function (dbSpot) {
-                res.json(dbSpot);
-            });
-    });
+          .then(function (dbSpot) {
+            res.json(dbSpot);
+          });
+      });
+    
 
     app.get("/api/spots/:type/:tod", function (req, res) {
         var typeArr = req.params.type.split("+");
