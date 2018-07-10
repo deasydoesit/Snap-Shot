@@ -23,5 +23,10 @@
     }
 
     #spots-div {
-        float: right;
+        position: absolute;
+        top: 9%;
+        z-index: 1000;
+        background-color: #e3f2fd;
+        width: 35%;
+        left: 65%;
     }
