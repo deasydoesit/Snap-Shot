@@ -30,7 +30,7 @@ $(document).ready(function () {
     var lat;
     var lng;
 
-    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 7 });
+    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 12 });
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -109,7 +109,7 @@ $(document).ready(function () {
         if (locations.indexOf('Vista') != -1) {
             vista = true;
         };
-        if (locations.indexOf('Treny') != -1) {
+        if (locations.indexOf('Trendy') != -1) {
             trendy = true;
         };
         if (locations.indexOf('Street Art') != -1) {
@@ -304,9 +304,13 @@ $(document).ready(function () {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
                 var newH4 = $("<h4>").text(data[i].location);
                 var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var FavButton = $("<button>").text("Favorite").attr({"type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id});
+                var starSpan = $("<span>").attr({"class": "glyphicon glyphicon-star", "aria-hidden": "true"});
+                $(FavButton).append(starSpan);
                 var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
+                $(newDiv).append(FavButton);
                 $(newDiv).append(newP);
                 $("#spots-div").append(newDiv);
             }
@@ -318,7 +322,7 @@ $(document).ready(function () {
                     .setContent('<div class="popupDiv">' +
                         '<h6>' + data[i].location + '</h6>' +
                         '<img src="' + data[i] + '" width="100px" height="100px">' +
-                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '<p>' + data[i].description + '</p>' +
                         '</div>');
 
                 marker = new L.marker([data[i].lat, data[i].lng])
