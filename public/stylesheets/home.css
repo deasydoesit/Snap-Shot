@@ -1,12 +1,32 @@
-/* Modal Styles */
+/* Global Styles 
+---------------------------------------------*/
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body {
+        height: 100%;
+        width: 100%;
+    }
+
+/* Modal Styles 
+---------------------------------------------*/
     .pac-container {
         z-index: 1051 !important;
     }
 
+/* Map Styles 
+---------------------------------------------*/
     #mapid {
-        height: 768px;
+        height: 100%;
+        width: 100%;
     }
 
     #spots-div {
-        float: right;
+        position: absolute;
+        top: 9%;
+        z-index: 1000;
+        background-color: #e3f2fd;
+        width: 35%;
+        left: 65%;
     }
