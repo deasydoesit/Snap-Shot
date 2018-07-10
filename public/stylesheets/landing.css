@@ -16,6 +16,8 @@
 ---------------------------------------------*/
     .spot-bay-font {
         font-family: 'bavroregular';
+        font-weight: bold;
+        font-size: 1.5rem;
     }
 
     .nav-bg-color {
@@ -51,8 +53,31 @@
 
 /* Media Queries
 ---------------------------------------------*/
-@media only screen and (max-width: 676px) {
-    body {
-        background-color: lightblue;
+@media only screen and (max-width: 519px) {
+    .content-item {
+        font-size: 1.75rem;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .signup-div {
+        padding-left: 2rem;
+    }
+}
+
+@media only screen and (max-width: 776px) {
+    .border-div {
+        padding: 2rem 0;
+        border-right: none;
+        border-bottom: 2px solid grey;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .signup-div {
+        padding-top: 2rem;
+        padding-right: 0;
+        padding-left: initial;
+        width: 90%;
+        margin: 0 auto;
     }
 }
