@@ -12,7 +12,7 @@ aws.config.update({
 
 var s3 = new aws.S3();
 
-var path = "https://s3.amazonaws.com/snap-spot/";
+var path = "https://s3.amazonaws.com/snap-spot/public";
 
 var upload = multer({
     storage: multerS3({
@@ -54,9 +54,6 @@ module.exports = function(app) {
     });
 
     app.post("/api/upload", upload.single('photo'), function (req, res, next) {
-        
-        console.log(req.body);
-        console.log(typeof req.user.id);
         db.Spot.create({
             location: req.body.location,
             lat: req.body.lat,
@@ -76,6 +73,7 @@ module.exports = function(app) {
             console.log(err);
             res.json(err);
         });
+        path = "https://s3.amazonaws.com/snap-spot/public";
     });
 
     // GET route for getting all of the spots

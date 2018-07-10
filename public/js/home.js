@@ -120,7 +120,6 @@ $(document).ready(function () {
         });
     }
 
-
     var categoryArr = [];
 
     function concatType() {
