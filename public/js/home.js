@@ -30,13 +30,17 @@ $(document).ready(function () {
     var lat;
     var lng;
 
-    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 12 });
+    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 12, scrollWheelZoom: false, zoomControl: false});
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiamF5cmVkZDExIiwiYSI6ImNqaGdsaWF3dzFpZjYzZHAzeW4wbHNmb2UifQ.COxlVvDKbzGEnSyy5Um6vg'
+    }).addTo(mymap);
+
+    L.control.zoom({
+        position:'bottomleft'
     }).addTo(mymap);
 
     var myMapLayer = L.layerGroup([])
@@ -50,7 +54,7 @@ $(document).ready(function () {
             var popup = L.popup({ className: 'popup' })
                 .setContent('<div class="popupDiv">' +
                     '<h6>' + data[i].location + '</h6>' +
-                    '<img src="' + data[i] + '" width="100px" height="100px">' +
+                    '<img src="' + data[i].path + '" width="100px" height="100px">' +
                     '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
                     '</div>');
 
@@ -59,6 +63,15 @@ $(document).ready(function () {
                 .addTo(myMapLayer);
         }
     }
+
+    mymap.on('click', function() { //only enable map scrolling on click
+        if (mymap.scrollWheelZoom.enabled()) {
+          mymap.scrollWheelZoom.disable();
+        }
+        else {
+          mymap.scrollWheelZoom.enable();
+        }
+    });
 
     google.maps.event.addDomListener(modalBtn, 'click', initLocation); //listen for location filed data entry by user for autocomplete
 
@@ -200,7 +213,7 @@ $(document).ready(function () {
                 var popup = L.popup({ className: 'popup' })
                     .setContent('<div class="popupDiv">' +
                         '<h6>' + data[i].location + '</h6>' +
-                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<img src="' + data[i].path + '" width="100px" height="100px">' +
                         '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
                         '</div>');
 
@@ -257,7 +270,7 @@ $(document).ready(function () {
                 var popup = L.popup({ className: 'popup' })
                     .setContent('<div class="popupDiv">' +
                         '<h6>' + data[i].location + '</h6>' +
-                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<img src="' + data[i].path + '" width="100px" height="100px">' +
                         '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
                         '</div>');
 
@@ -321,7 +334,7 @@ $(document).ready(function () {
                 var popup = L.popup({ className: 'popup' })
                     .setContent('<div class="popupDiv">' +
                         '<h6>' + data[i].location + '</h6>' +
-                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<img src="' + data[i].path + '" width="100px" height="100px">' +
                         '<p>' + data[i].description + '</p>' +
                         '</div>');
 
