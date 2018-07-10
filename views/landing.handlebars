@@ -1,20 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="login form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="email" id="email-login" placeholder="Email">
-            <input class="form-control mr-sm-2" type="password" id="password-login" placeholder="Password">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-<div class="container">
+<div class="nav-bg-color" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-md navbar-light nav-width-control">
+        <a class="navbar-brand spot-bay-font" href="/">Spot Bay &#x1F4F8;</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form class="form-inline login my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="email" id="email-login" placeholder="Email">
+                        <input class="form-control mr-sm-2" type="password" id="password-login" placeholder="Password">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Login In</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container content-width-control">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h2>Sign Up Form</h2>
+        <div class="col-md-6 col-md-offset-3 border-div">
+            <h1 class="content-title">The Spot Bay</h1>
+            <h2 class="content-item"><i class="fas fa-map-marked-alt icon-color"></i>&nbsp;&nbsp;&nbsp;Find cool spots to take photos</h2>
+            <h2 class="content-item"><i class="fas fa-map-pin icon-color"></i>&nbsp;&nbsp;&nbsp;Share your favorite photo spots</h2>
+            <h2 class="content-item"><i class="fas fa-globe-americas icon-color"></i>&nbsp;&nbsp;&nbsp;Explore new places</h2>
+        </div>
+        <div class="col-md-6 col-md-offset-3 signup-div">
+            <h2 class="content-title">Sign Up!</h2>
             <form class="signup">
                 <div class="form-group">
                     <label for="first">First name</label>
@@ -42,4 +54,5 @@
         </div>
     </div>
 </div>
+<link href="./stylesheets/landing.css" rel="stylesheet">
 <script type="text/javascript" src="./js/landing.js"></script>

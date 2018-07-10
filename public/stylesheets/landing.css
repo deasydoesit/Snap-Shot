@@ -1,0 +1,83 @@
+/* Fonts
+---------------------------------------------*/
+@font-face {
+    font-family: 'bavroregular';
+    src: url('../fonts/bavro/bavro-regular-webfont.eot');
+    src: url('../fonts/bavro/bavro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bavro/bavro-regular-webfont.woff2') format('woff2'),
+         url('../fonts/bavro/bavro-regular-webfont.woff') format('woff'),
+         url('../fonts/bavro/bavro-regular-webfont.ttf') format('truetype'),
+         url('../fonts/bavro/bavro-regular-webfont.svg#bavroregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Navbar Styles 
+---------------------------------------------*/
+    .spot-bay-font {
+        font-family: 'bavroregular';
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .nav-bg-color {
+        background-color: #e3f2fd;
+    }
+
+    .nav-width-control {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+/* Content Styles 
+---------------------------------------------*/
+    .content-width-control {
+        max-width: 1200px;
+        margin-top: 4%;
+    }
+
+    .icon-color {
+        color: #005abb;
+    }
+
+    .border-div {
+        border-right: 2px solid grey;
+    }
+
+    .content-title, .content-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .signup-div {
+        padding-left: 6rem;
+    }
+
+/* Media Queries
+---------------------------------------------*/
+@media only screen and (max-width: 519px) {
+    .content-item {
+        font-size: 1.75rem;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .signup-div {
+        padding-left: 2rem;
+    }
+}
+
+@media only screen and (max-width: 776px) {
+    .border-div {
+        padding: 2rem 0;
+        border-right: none;
+        border-bottom: 2px solid grey;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .signup-div {
+        padding-top: 2rem;
+        padding-right: 0;
+        padding-left: initial;
+        width: 90%;
+        margin: 0 auto;
+    }
+}
