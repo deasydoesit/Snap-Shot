@@ -39,10 +39,12 @@ $(document).ready(function () {
         accessToken: 'pk.eyJ1IjoiamF5cmVkZDExIiwiYSI6ImNqaGdsaWF3dzFpZjYzZHAzeW4wbHNmb2UifQ.COxlVvDKbzGEnSyy5Um6vg'
     }).addTo(mymap);
 
+    var myMapLayer = L.layerGroup([])
+        .addTo(mymap);
+
     function createMarker() {
         var myMapLayer = L.layerGroup([])
-        .addLayer(polyline)
-        .addTo(map);
+            .addTo(mymap);
 
         for (var i = 0; i < data.length; i++) {
             var popup = L.popup({ className: 'popup' })
@@ -161,7 +163,7 @@ $(document).ready(function () {
         return plusString
     }
 
-    
+
     function getByType() {
         var queryURL = "/api/spots/" + plusString;
 
@@ -169,7 +171,32 @@ $(document).ready(function () {
             type: 'GET',
             url: queryURL
         }).then(function (data) {
-            renderData();
+            mymap.removeLayer(myMapLayer);
+            for (var i = 0; i < data.length; i++) {
+                var newDiv = $("<div>").attr({ "data-spotId": data.id });
+                var newH4 = $("<h4>").text(data.location);
+                var newImg = $("<img>").attr({ "src": data.path, "width": "200px", "height": "200px" });
+                var newP = $("<p>").text(data.description);
+                $(newDiv).append(newH4);
+                $(newDiv).append(newImg);
+                $(newDiv).append(newP);
+                $("#spots-div").append(newDiv);
+            }
+            myMapLayer = L.layerGroup([])
+                .addTo(mymap);
+
+            for (var i = 0; i < data.length; i++) {
+                var popup = L.popup({ className: 'popup' })
+                    .setContent('<div class="popupDiv">' +
+                        '<h6>' + data[i].location + '</h6>' +
+                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '</div>');
+
+                marker = new L.marker([data[i].lat, data[i].lng])
+                    .bindPopup(popup)
+                    .addTo(myMapLayer);
+            }
         });
 
     }
@@ -215,7 +242,10 @@ $(document).ready(function () {
             type: 'GET',
             url: '/api/spots/'
         }).then(function (data) {
-            console.log(data)
+            console.log(data);
+            $("#spots-div").empty();
+            mymap.removeLayer(myMapLayer);
+
             for (var i = 0; i < data.length; i++) {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
                 var newH4 = $("<h4>").text(data[i].location);
@@ -226,7 +256,22 @@ $(document).ready(function () {
                 $(newDiv).append(newP);
                 $("#spots-div").append(newDiv);
             }
-            // renderData();
+            myMapLayer = L.layerGroup([])
+                .addTo(mymap);
+
+            for (var i = 0; i < data.length; i++) {
+                var popup = L.popup({ className: 'popup' })
+                    .setContent('<div class="popupDiv">' +
+                        '<h6>' + data[i].location + '</h6>' +
+                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '</div>');
+
+                marker = new L.marker([data[i].lat, data[i].lng])
+                    .bindPopup(popup)
+                    .addTo(myMapLayer);
+            }
+
         });
 
 
