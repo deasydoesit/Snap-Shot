@@ -4,12 +4,15 @@ var bodyParser = require("body-parser");
 var session = require("express-session"); 
 var passport = require("./config/passport"); 
 var exphbs = require("express-handlebars");
+var path = require('path');
+var favicon = require('serve-favicon');
 
 var PORT = process.env.PORT || 8080;
 var db = require("./models");
 
 var app = express();
 
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
