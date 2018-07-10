@@ -152,8 +152,9 @@ $(document).ready(function () {
     var categoryArr = [];
 
     function concatType() {
+        var plusString;
+
         for (var i = 0; i < categoryArr.length; i++) {
-            var plusString;
             if (i == 0) {
                 plusString = categoryArr[i];
             } else {
@@ -165,6 +166,16 @@ $(document).ready(function () {
 
 
     function getByType() {
+        var plusString = '';
+
+        for (var i = 0; i < categoryArr.length; i++) {
+            if (i == 0) {
+                plusString = categoryArr[i];
+            } else {
+                plusString += "+" + categoryArr[i];
+            }
+        }
+
         var queryURL = "/api/spots/" + plusString;
 
         $.ajax({
@@ -173,10 +184,10 @@ $(document).ready(function () {
         }).then(function (data) {
             mymap.removeLayer(myMapLayer);
             for (var i = 0; i < data.length; i++) {
-                var newDiv = $("<div>").attr({ "data-spotId": data.id });
-                var newH4 = $("<h4>").text(data.location);
-                var newImg = $("<img>").attr({ "src": data.path, "width": "200px", "height": "200px" });
-                var newP = $("<p>").text(data.description);
+                var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
+                var newH4 = $("<h4>").text(data[i].location);
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
                 $(newDiv).append(newP);
@@ -201,38 +212,81 @@ $(document).ready(function () {
 
     }
 
-    $(document).on("click", ".trendy-button", function () {
-        $("spots-div").empty();
-        categoryArr.push("trendy")
-        concatType();
+    $(document).on("click", "#trendy-button", function () {
+        $("#spots-div").empty();
+        categoryArr.push("trendy");
+        console.log(categoryArr);
         getByType();
     });
 
-    $(document).on("click", ".historical-button", function () {
-        $("spots-div").empty();
-        categoryArr.push("historical")
-        concatType();
+    $(document).on("click", "#historical-button", function () {
+        $("#spots-div").empty();
+        categoryArr.push("historical");
+        console.log(categoryArr);
+        var plusString;
+        for (var i = 0; i < categoryArr.length; i++) {
+            if (i == 0) {
+                plusString = categoryArr[i];
+            } else {
+                plusString += "+" + categoryArr[i];
+            }
+        }
+        console.log(plusString);
+        var queryURL = "/api/spots/" + plusString;
+        console.log(queryURL);
+        $.ajax({
+            type: 'GET',
+            url: queryURL
+        }).then(function (data) {
+            console.log(data);
+            mymap.removeLayer(myMapLayer);
+            for (var i = 0; i < data.length; i++) {
+                var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
+                var newH4 = $("<h4>").text(data[i].location);
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var newP = $("<p>").text(data[i].description);
+                $(newDiv).append(newH4);
+                $(newDiv).append(newImg);
+                $(newDiv).append(newP);
+                $("#spots-div").append(newDiv);
+            }
+            myMapLayer = L.layerGroup([])
+                .addTo(mymap);
+
+            for (var i = 0; i < data.length; i++) {
+                var popup = L.popup({ className: 'popup' })
+                    .setContent('<div class="popupDiv">' +
+                        '<h6>' + data[i].location + '</h6>' +
+                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '</div>');
+
+                marker = new L.marker([data[i].lat, data[i].lng])
+                    .bindPopup(popup)
+                    .addTo(myMapLayer);
+            }
+        });
+
+    });
+
+    $(document).on("click", "#streetart-button", function () {
+        $("#spots-div").empty();
+        categoryArr.push("street_art");
+        console.log(categoryArr);
         getByType();
     });
 
-    $(document).on("click", ".streetart-button", function () {
-        $("spots-div").empty();
-        categoryArr.push("streetart")
-        concatType();
+    $(document).on("click", "#vista-button", function () {
+        $("#spots-div").empty();
+        categoryArr.push("vista");
+        console.log(categoryArr);
         getByType();
     });
 
-    $(document).on("click", ".vista-button", function () {
-        $("spots-div").empty();
-        categoryArr.push("vista")
-        concatType();
-        getByType();
-    });
-
-    $(document).on("click", ".nature-button", function () {
-        $("spots-div").empty();
-        categoryArr.push("nature")
-        concatType();
+    $(document).on("click", "#nature-button", function () {
+        $("#spots-div").empty();
+        categoryArr.push("nature");
+        console.log(categoryArr);
         getByType();
     });
 
