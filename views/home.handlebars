@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -10,9 +11,17 @@
         <button id="modal-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#spotModal">
             Submit Spot
         </button>
+        <button id="global" type="button" class="btn btn-primary">
+            Global
+        </button>
     </div>
 </nav>
-
+<div class="container">
+    <div class="row">
+        <div class="col s6" id="mapid"></div>
+        <div class="col s6" id="spots-div"></div>
+    </div>
+</div>
 <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -71,4 +80,4 @@
     }
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4fhRdyH3wpy2j9MQ9YBt6NVzea67eD4&libraries=places&callback=initLocation"></script>
-<script type="text/javascript" src="./js/home.js"></script> 
+<script type="text/javascript" src="./js/home.js"></script>

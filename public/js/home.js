@@ -30,6 +30,33 @@ $(document).ready(function () {
     var lat;
     var lng;
 
+    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 7 });
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoiamF5cmVkZDExIiwiYSI6ImNqaGdsaWF3dzFpZjYzZHAzeW4wbHNmb2UifQ.COxlVvDKbzGEnSyy5Um6vg'
+    }).addTo(mymap);
+
+    function createMarker() {
+        var myMapLayer = L.layerGroup([])
+        .addLayer(polyline)
+        .addTo(map);
+
+        for (var i = 0; i < data.length; i++) {
+            var popup = L.popup({ className: 'popup' })
+                .setContent('<div class="popupDiv">' +
+                    '<h6>' + data[i].location + '</h6>' +
+                    '<img src="' + data[i] + '" width="100px" height="100px">' +
+                    '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                    '</div>');
+
+            marker = new L.marker([data[i].lat, data[i].lng])
+                .bindPopup(popup)
+                .addTo(myMapLayer);
+        }
+    }
 
     google.maps.event.addDomListener(modalBtn, 'click', initLocation); //listen for location filed data entry by user for autocomplete
 
@@ -135,19 +162,7 @@ $(document).ready(function () {
         return plusString
     }
 
-    function renderData() {
-        for (var i = 0; i < data.length; i++) {
-            var newDiv = $("<div>").attr({ "data-spotId": data.id });
-            var newH4 = $("<h4>").text(data.location);
-            var newImg = $("<img>").attr({ "src": data.path, "width": "200px", "height": "200px" });
-            var newP = $("<p>").text(data.description);
-            $(newDiv).append(newH4);
-            $(newDiv).append(newImg);
-            $(newDiv).append(newP);
-            $("#spots-div").append(newDiv);
-        }
-    }
-
+    
     function getByType() {
         var queryURL = "/api/spots/" + plusString;
 
@@ -199,12 +214,37 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'GET',
-            url: '/api/spots'
+            url: '/api/spots/'
         }).then(function (data) {
-            renderData();
+            console.log(data)
+            for (var i = 0; i < data.length; i++) {
+                var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
+                var newH4 = $("<h4>").text(data[i].location);
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var newP = $("<p>").text(data[i].description);
+                $(newDiv).append(newH4);
+                $(newDiv).append(newImg);
+                $(newDiv).append(newP);
+                $("#spots-div").append(newDiv);
+            }
+            // renderData();
         });
 
 
 
     });
+
+    function renderData() {
+        for (var i = 0; i < data.length; i++) {
+            var newDiv = $("<div>").attr({ "data-spotId": data.id });
+            var newH4 = $("<h4>").text(data.location);
+            var newImg = $("<img>").attr({ "src": data.path, "width": "200px", "height": "200px" });
+            var newP = $("<p>").text(data.description);
+            $(newDiv).append(newH4);
+            $(newDiv).append(newImg);
+            $(newDiv).append(newP);
+            $("#spots-div").append(newDiv);
+        }
+    }
+
 });
