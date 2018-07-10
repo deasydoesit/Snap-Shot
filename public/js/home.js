@@ -40,13 +40,11 @@ $(document).ready(function () {
     }).addTo(mymap);
 
     var myMapLayer = L.layerGroup([])
-                .addLayer(polyline)
-                .addTo(mymap);
+        .addTo(mymap);
 
     function createMarker() {
         var myMapLayer = L.layerGroup([])
-            .addLayer(polyline)
-            .addTo(map);
+            .addTo(mymap);
 
         for (var i = 0; i < data.length; i++) {
             var popup = L.popup({ className: 'popup' })
@@ -185,7 +183,6 @@ $(document).ready(function () {
                 $("#spots-div").append(newDiv);
             }
             myMapLayer = L.layerGroup([])
-                .addLayer(polyline)
                 .addTo(mymap);
 
             for (var i = 0; i < data.length; i++) {
@@ -245,7 +242,10 @@ $(document).ready(function () {
             type: 'GET',
             url: '/api/spots/'
         }).then(function (data) {
-            console.log(data)
+            console.log(data);
+            $("#spots-div").empty();
+            mymap.removeLayer(myMapLayer);
+
             for (var i = 0; i < data.length; i++) {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
                 var newH4 = $("<h4>").text(data[i].location);
@@ -256,6 +256,22 @@ $(document).ready(function () {
                 $(newDiv).append(newP);
                 $("#spots-div").append(newDiv);
             }
+            myMapLayer = L.layerGroup([])
+                .addTo(mymap);
+
+            for (var i = 0; i < data.length; i++) {
+                var popup = L.popup({ className: 'popup' })
+                    .setContent('<div class="popupDiv">' +
+                        '<h6>' + data[i].location + '</h6>' +
+                        '<img src="' + data[i] + '" width="100px" height="100px">' +
+                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '</div>');
+
+                marker = new L.marker([data[i].lat, data[i].lng])
+                    .bindPopup(popup)
+                    .addTo(myMapLayer);
+            }
+
         });
 
 
