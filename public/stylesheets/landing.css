@@ -10,3 +10,27 @@
     }
 /* Content Styles 
 ---------------------------------------------*/
+    .content-width-control {
+        max-width: 1200px;
+        margin-top: 4%;
+    }
+
+    .icon-color {
+        color: #005abb;
+    }
+
+    .border-div {
+        border-right: 2px solid grey;
+    }
+
+    .signup-div {
+        padding-left: 6rem;
+    }
+
+    .content-title {
+        padding-bottom: 1.5rem;
+    }
+
+    .content-item {
+        margin-bottom: 1rem;
+    }
