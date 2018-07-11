@@ -227,7 +227,7 @@ $(document).ready(function () {
                     .addTo(myMapLayer);
             }
             $("#spots-sidebar").css("display", "block");
-           
+
         });
 
     }
@@ -284,7 +284,7 @@ $(document).ready(function () {
                     .addTo(myMapLayer);
             }
             $("#spots-sidebar").css("display", "block");
-           
+
         });
 
     }
@@ -292,7 +292,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#trendy-button", function () {
         $("#spots-div").empty();
         categoryArr.push("trendy");
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $("#button-div").append($(this));
@@ -301,7 +301,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#historical-button", function () {
         $("#spots-div").empty();
         categoryArr.push("historical");
-        console.log(categoryArr);
+        // console.log(categoryArr);
         var plusString;
         for (var i = 0; i < categoryArr.length; i++) {
             if (i == 0) {
@@ -310,14 +310,14 @@ $(document).ready(function () {
                 plusString += "+" + categoryArr[i];
             }
         }
-        console.log(plusString);
+        // console.log(plusString);
         var queryURL = "/api/spots/" + plusString;
-        console.log(queryURL);
+        // console.log(queryURL);
         $.ajax({
             type: 'GET',
             url: queryURL
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             mymap.removeLayer(myMapLayer);
             for (var i = 0; i < data.length; i++) {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
@@ -352,7 +352,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#streetart-button", function () {
         $("#spots-div").empty();
         categoryArr.push("street_art");
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-div").css("display", "block");
         $("#button-div").append($(this));
@@ -361,7 +361,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#vista-button", function () {
         $("#spots-div").empty();
         categoryArr.push("vista");
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $("#button-div").append($(this));
@@ -370,7 +370,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#nature-button", function () {
         $("#spots-div").empty();
         categoryArr.push("nature");
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $("#button-div").append($(this));
@@ -380,7 +380,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("vista");
         categoryArr.splice(index, 1);
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -390,7 +390,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("historical");
         categoryArr.splice(index, 1);
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -400,7 +400,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("trendy");
         categoryArr.splice(index, 1);
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -410,7 +410,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("nature");
         categoryArr.splice(index, 1);
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -420,7 +420,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("street_art");
         categoryArr.splice(index, 1);
-        console.log(categoryArr);
+        // console.log(categoryArr);
         getByType();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -429,7 +429,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#sunrise-button", function () {
         $("#spots-div").empty();
         todArr.push("Sunrise");
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-div").css("display", "block");
         $("#button-div").append($(this));
@@ -439,7 +439,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("Sunrise");
         todArr.splice(index, 1);
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -448,7 +448,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#day-button", function () {
         $("#spots-div").empty();
         todArr.push("Day");
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-div").css("display", "block");
         $("#button-div").append($(this));
@@ -458,7 +458,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("Day");
         todArr.splice(index, 1);
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -467,7 +467,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#sunset-button", function () {
         $("#spots-div").empty();
         todArr.push("Sunset");
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-div").css("display", "block");
         $("#button-div").append($(this));
@@ -477,7 +477,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("Sunset");
         todArr.splice(index, 1);
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -486,7 +486,7 @@ $(document).ready(function () {
     $(".button-spot").on("click", "#evening-button", function () {
         $("#spots-div").empty();
         todArr.push("Evening");
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-div").css("display", "block");
         $("#button-div").append($(this));
@@ -496,7 +496,7 @@ $(document).ready(function () {
         $("#spots-div").empty();
         var index = categoryArr.indexOf("Evening");
         todArr.splice(index, 1);
-        console.log(todArr);
+        // console.log(todArr);
         getByToD();
         $("#spots-sidebar").css("display", "block");
         $(".button-spot").append($(this));
@@ -518,7 +518,7 @@ $(document).ready(function () {
             type: 'GET',
             url: '/api/spots/'
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             $("#spots-div").empty();
             mymap.removeLayer(myMapLayer);
 
@@ -526,14 +526,14 @@ $(document).ready(function () {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id, "class": "spot-div" });
                 var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
                 var newH4 = $("<h4>").text(data[i].location);
-                var FavButton = $("<button>").text("Favorite").attr({ "type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id, "data-type": "unfav" });
-                var starSpan = $("<span>").attr({ "class": "glyphicon glyphicon-star", "aria-hidden": "true" });
-                $(FavButton).append(starSpan);
+                // var FavButton = $("<button>").text("Favorite").attr({ "type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id, "data-type": "unfav" });
+                // var starSpan = $("<span>").attr({ "class": "glyphicon glyphicon-star", "aria-hidden": "true" });
+                // $(FavButton).append(starSpan);
                 var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(header);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
-                $(newDiv).append(FavButton);
+                // $(newDiv).append(FavButton);
                 $(newDiv).append(newP);
                 $("#spots-div").append(newDiv);
             }
@@ -559,47 +559,63 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-    $(document).on("click", ".favorites", function () {
-        if ($(this).data("type") == "unfav") {
-            $(this).text("Unfavorite").data("type", "fav");
-            var queryURL = "/api/favorites/" + $(this).data("id");
-            $.ajax({
-                type: 'POST',
-                url: queryURL
-            }).then(function (data) {
-                console.log(data);
-            });
-
-            var queryURL2 = "/api/spots/1/" + $(this).data("id");
-            $.ajax({
-                type: 'PUT',
-                url: queryURL2
-            }).then(function (data) {
-                console.log(data);
-            });
-        } else {
-            $(this).text("Favorite").data("type", "unfav");
-            var queryURL = "/api/favorites/" + $(this).data("id");
-            $.ajax({
-                type: 'DELETE',
-                url: queryURL
-            }).then(function (data) {
-                console.log(data);
-            });
-            var queryURL3 = "/api/spots/2/" + $(this).data("id");
-            $.ajax({
-                type: 'PUT',
-                url: queryURL3
-            }).then(function (data) {
-                console.log(data);
-            });
-        }
-
-
+    $(".dropdown-submenu a.test").on("click", function (e) {
+        $("#time").hide();
     });
+
+    $(".dropdown-submenu a.test").on("click", function (e) {
+        $("#location").hide();
+    });
+    $('.dropdown-submenu a.test').on("click", function (e) {
+        $(this).next('ul').toggle();
+        /* 	$("#location").toggle()
+              $("#location").hide() */
+
+
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+
+
+    // $(document).on("click", ".favorites", function () {
+    //     if ($(this).data("type") == "unfav") {
+    //         $(this).text("Unfavorite").data("type", "fav");
+    //         var queryURL = "/api/favorites/" + $(this).data("id");
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: queryURL
+    //         }).then(function (data) {
+    //             console.log(data);
+    //         });
+
+    //         var queryURL2 = "/api/spots/1/" + $(this).data("id");
+    //         $.ajax({
+    //             type: 'PUT',
+    //             url: queryURL2
+    //         }).then(function (data) {
+    //             console.log(data);
+    //         });
+    //     } else {
+    //         $(this).text("Favorite").data("type", "unfav");
+    //         var queryURL = "/api/favorites/" + $(this).data("id");
+    //         $.ajax({
+    //             type: 'DELETE',
+    //             url: queryURL
+    //         }).then(function (data) {
+    //             console.log(data);
+    //         });
+    //         var queryURL3 = "/api/spots/2/" + $(this).data("id");
+    //         $.ajax({
+    //             type: 'PUT',
+    //             url: queryURL3
+    //         }).then(function (data) {
+    //             console.log(data);
+    //         });
+    //     }
+
+
+    // });
 
 });
 

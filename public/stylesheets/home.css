@@ -54,4 +54,85 @@
         padding-top: 0.5rem;
     }
 
+    #modal-btn{
+        margin-left: auto;
+        margin: auto;
+        bottom: 0;
+        /* padding:10px; */
+        width: 200px;
+        height: 50px;
+        /* padding: 10px 16px; */
+        opacity: 20%;
+        /* margin-left:70%;   */
+        position: sticky;
+        
     
+    }
+           
+    #public{
+        float: right;
+        margin-left: 21px;
+        margin-right: 8px;
+        padding: 5px;
+    }
+    #personal{
+        float: right;
+        margin-left: auto;
+        margin-right: -22px;
+        padding: 5px;
+    }
+    
+    
+    
+    #Logo{
+        display: inline-block;
+        margin-left: 35%;    
+        margin-right: auto;
+        font-size: 28px;
+        margin-top: 5%;
+        color: aliceblue;
+    }
+    
+    body{
+        background-color: rgb(30, 30, 30);
+        overflow: scroll;
+    }
+    
+    footer{
+        color:white;
+        opacity: 100%;
+    }
+    
+    .card{
+        margin: auto;
+        width: 90%;
+        
+        padding: 10px;
+    }
+    
+    .dropdown-submenu {
+        position: relative;
+        margin-left:5px
+    }
+    
+    .dropdown-submenu .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -10px;
+        background-color: rgb(0, 149, 255);
+    
+    }
+    
+    #menu{
+        margin-top:10px;
+        margin-left:5px;
+        width: 8%;
+        margin-top: -64px;
+        color: rgb(0, 149, 255);
+      
+      }
+    
+    hr{
+        width: 90%;
+        color: black;
+    }
