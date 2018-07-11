@@ -31,10 +31,86 @@
         </button>
     </div>
 </nav>
+    <nav id="navBar" class="navbar">
+        <div class="container-fluid">
+            <img src="" alt="Spotbay" id="Logo">
+{{!-- Drop-Down Menu Image --}}
+              <div class="dropdown">
+                  <img id="menu" class="card-img-top" type"button" data-toggle="dropdown" src="assets/bars-solid.png" >
+{{!-- Drop-Down Menu --}}
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">Popular</a></li>
+{{!-- Location Submenu --}}
+              <li class="dropdown-submenu">
+                <a class="test" href="#">Location <span class="caret"></span></a>
+                <ul id="location" class="dropdown-menu">
+                  <li><a id="trendy-button" type="button" href="#">Trendy</a></li>
+                  <li><a id="streetart-button" type="button" href="#">Street Art</a></li>
+                  <li><a id="historical-button" type="button" href="#">Historical</a></li>
+                  <li><a id="nature-button" type="button" href="#">Nature</a></li>
+                  <li><a id="vista-button" type="button"  href="#">Vista</a></li>
+                  </ul>
+                 </li>
+                 <br>
+{{!-- Time Submenu --}}
+                  <li  class="dropdown-submenu">
+                <a  class="test" tabindex="-1" href="#">Time <span class="caret"></span></a>
+                <ul id="time" class="dropdown-menu">
+                  <li><a tabindex="-1" href="#">Sunrise</a></li>
+                  <li><a tabindex="-1" href="#">Mid-Day</a></li>
+                  <li><a tabindex="-1" href="#">Sunset</a></li>
+                  <li><a tabindex="-1" href="#">Evening</a></li>
+                </ul>
+                
+                <li><a tabindex="-1" href="landing.handlebars">Logout</a></li>
+
+                
+                  </li>
+                </ul>
+              </div>  
+          </div>
+        </div>
+      </a>   
+</nav> 
+
+{{!-- Spot Cards --}}
+<div class="card-deck">
+    <div class="card">
+        <img class="card-img-top" src="assets/tight-corner.jpg" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <hr>
+    <div class="card">
+        <img class="card-img-top" src="assets/tight-corner.jpg" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <hr>
+    <div class="card">
+        <img class="card-img-top" src="assets/tight-corner.jpg" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+
+{{!-- Add Button Image --}}
+ <img src="assets/addButton.png" alt="add" id="modal-btn">  
+
 <div class="container">
     <div id="mapid"></div>
     <div id="spots-div"></div>
 </div>
+{{!-- Create Post Form --}}
 <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -85,6 +161,7 @@
         </div>
     </div>
 </div>
+{{!-- Post Form Ended --}}
 <link href="./stylesheets/home.css" rel="stylesheet">
 <script> //initialize google maps autocomplete
     function initLocation() {

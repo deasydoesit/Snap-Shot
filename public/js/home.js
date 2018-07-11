@@ -349,4 +349,22 @@ $(document).ready(function () {
         }
     }
 
+    $(".dropdown-submenu a.test").on("click", function(e){
+        $("#time").hide();
+        });
+        
+        $(".dropdown-submenu a.test").on("click", function(e){
+        $("#location").hide();
+        });
+          $('.dropdown-submenu a.test').on("click", function(e){
+            $(this).next('ul').toggle();
+        /* 	$("#location").toggle()
+              $("#location").hide() */
+          
+        
+                e.stopPropagation();
+             e.preventDefault();
+             });
+
+
 });
