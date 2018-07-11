@@ -182,33 +182,33 @@ module.exports = function (app) {
 
     // });
 
-    app.put("/api/spots/2/:id", function (req, res) {
-        db.Spot.findById(req.params.id).then(Spot => {
-            return db.Spot.decrement('popularity', { by: 1 })
-        })
+    // app.put("/api/spots/2/:id", function (req, res) {
+    //     db.Spot.findById(req.params.id).then(Spot => {
+    //         return db.Spot.decrement('popularity', { by: 1 })
+    //     })
 
-    });
+    // });
 
-    app.delete("/api/favorites/:id", function (req, res) {
-        db.Favorite.destroy({
-            where: {
-                spot_id: req.params.id,
-                user_id: req.user.id
-            }
-        })
-            .then(function (dbFavorites) {
-                res.json(dbFavorites);
-            });
-    });
+    // app.delete("/api/favorites/:id", function (req, res) {
+    //     db.Favorite.destroy({
+    //         where: {
+    //             spot_id: req.params.id,
+    //             user_id: req.user.id
+    //         }
+    //     })
+    //         .then(function (dbFavorites) {
+    //             res.json(dbFavorites);
+    //         });
+    // });
 
-    app.post("/api/favorites/:id", function (req, res) {
-        console.log(req.body);
-        db.Favorite.create({
-            user_id: req.user.id,
-            spot_id: req.params.id,
-            UserId: req.params.id
-        }).then(function(dbFavorites) {
-            res.json(dbfavorites);
-        });
-    });
+    // app.post("/api/favorites/:id", function (req, res) {
+    //     console.log(req.body);
+    //     db.Favorite.create({
+    //         user_id: req.user.id,
+    //         spot_id: req.params.id,
+    //         UserId: req.params.id
+    //     }).then(function(dbFavorites) {
+    //         res.json(dbfavorites);
+    //     });
+    // });
 };
