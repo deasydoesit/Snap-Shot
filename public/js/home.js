@@ -445,6 +445,63 @@ $(document).ready(function () {
         $(".button-spot").append($(this));
     });
 
+    $(".button-spot").on("click", "#day-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Day");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#day-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Day");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#sunset-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Sunset");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#sunset-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Sunset");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#evening-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Evening");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#evening-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Evening");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
     $(document).on("click", "#global", function () {
 
         $("#trendy-button").appendTo($(".button-spot"));
