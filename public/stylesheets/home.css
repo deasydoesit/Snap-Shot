@@ -24,9 +24,28 @@
 
     #spots-div {
         position: absolute;
-        top: 9%;
+        top: 9.5%;
         z-index: 1000;
         background-color: #e3f2fd;
         width: 35%;
-        left: 65%;
+        left: 64%;
+        height: 87%;
+        overflow-y: auto;
+        display: none;
     }
+
+    .spot-div {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 5%;
+        border-top: 2px solid #DCDCDC;
+        
+    }
+
+    .spot-header {
+        text-align: center;
+        font-size: 2.5rem;
+        padding-top: 0.5rem;
+    }
+
+    

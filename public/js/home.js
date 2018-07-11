@@ -43,32 +43,11 @@ $(document).ready(function () {
         position:'bottomleft'
     }).addTo(mymap);
 
-    var offset = mymap.getSize().x*0.15;
-    // Then move the map
-    mymap.panBy(new L.Point(offset, 0), {animate: false});
+    var offsetX = mymap.getSize().x*0.2; //offset center of the map to the left
+    var offsetY = mymap.getSize().y*0.1; //offset center of the map upwards
+    mymap.panBy(new L.Point(offsetX, offsetY), {animate: false}); //render map
 
-    var myMapLayer = L.layerGroup([])
-        .addTo(mymap);
-
-    function createMarker() {
-        var myMapLayer = L.layerGroup([])
-            .addTo(mymap);
-
-        for (var i = 0; i < data.length; i++) {
-            var popup = L.popup({ className: 'popup' })
-                .setContent('<div class="popupDiv">' +
-                    '<h6>' + data[i].location + '</h6>' +
-                    '<img src="' + data[i].path + '" width="100px" height="100px">' +
-                    '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
-                    '</div>');
-
-            marker = new L.marker([data[i].lat, data[i].lng])
-                .bindPopup(popup)
-                .addTo(myMapLayer);
-        }
-    }
-
-    mymap.on('click', function() { //only enable map scrolling on click
+    mymap.on('click', function() { //only enable map scrolling on map click
         if (mymap.scrollWheelZoom.enabled()) {
           mymap.scrollWheelZoom.disable();
         }
@@ -76,6 +55,27 @@ $(document).ready(function () {
           mymap.scrollWheelZoom.enable();
         }
     });
+
+    var myMapLayer = L.layerGroup([])
+        .addTo(mymap);
+
+    // function createMarker() {
+    //     var myMapLayer = L.layerGroup([])
+    //         .addTo(mymap);
+
+    //     for (var i = 0; i < data.length; i++) {
+    //         var popup = L.popup({ className: 'popup' })
+    //             .setContent('<div class="popupDiv">' +
+    //                 '<h6>' + data[i].location + '</h6>' +
+    //                 '<img src="' + data[i].path + '" width="100px" height="100px">' +
+    //                 '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+    //                 '</div>');
+
+    //         marker = new L.marker([data[i].lat, data[i].lng])
+    //             .bindPopup(popup)
+    //             .addTo(myMapLayer);
+    //     }
+    // }
 
     google.maps.event.addDomListener(modalBtn, 'click', initLocation); //listen for location filed data entry by user for autocomplete
 
@@ -168,18 +168,18 @@ $(document).ready(function () {
 
     var categoryArr = [];
 
-    function concatType() {
-        var plusString;
+    // function concatType() {
+    //     var plusString;
 
-        for (var i = 0; i < categoryArr.length; i++) {
-            if (i == 0) {
-                plusString = categoryArr[i];
-            } else {
-                plusString += "+" + categoryArr[i];
-            }
-        }
-        return plusString
-    }
+    //     for (var i = 0; i < categoryArr.length; i++) {
+    //         if (i == 0) {
+    //             plusString = categoryArr[i];
+    //         } else {
+    //             plusString += "+" + categoryArr[i];
+    //         }
+    //     }
+    //     return plusString
+    // }
 
 
     function getByType() {
@@ -203,7 +203,7 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
                 var newH4 = $("<h4>").text(data[i].location);
-                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
                 var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
@@ -225,6 +225,7 @@ $(document).ready(function () {
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
+            $("#spots-div").css("display", "block");
         });
 
     }
@@ -234,6 +235,7 @@ $(document).ready(function () {
         categoryArr.push("trendy");
         console.log(categoryArr);
         getByType();
+        $("#spots-div").css("display", "block");
     });
 
     $(document).on("click", "#historical-button", function () {
@@ -260,7 +262,7 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
                 var newH4 = $("<h4>").text(data[i].location);
-                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
                 var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
@@ -282,6 +284,7 @@ $(document).ready(function () {
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
+            $("#spots-div").css("display", "block");
         });
 
     });
@@ -291,6 +294,7 @@ $(document).ready(function () {
         categoryArr.push("street_art");
         console.log(categoryArr);
         getByType();
+        $("#spots-div").css("display", "block");
     });
 
     $(document).on("click", "#vista-button", function () {
@@ -298,6 +302,7 @@ $(document).ready(function () {
         categoryArr.push("vista");
         console.log(categoryArr);
         getByType();
+        $("#spots-div").css("display", "block");
     });
 
     $(document).on("click", "#nature-button", function () {
@@ -305,6 +310,7 @@ $(document).ready(function () {
         categoryArr.push("nature");
         console.log(categoryArr);
         getByType();
+        $("#spots-div").css("display", "block");
     });
 
     $(document).on("click", "#global", function () {
@@ -318,19 +324,23 @@ $(document).ready(function () {
             mymap.removeLayer(myMapLayer);
 
             for (var i = 0; i < data.length; i++) {
-                var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
+                var newDiv = $("<div>").attr({ "data-spotId": data[i].id, "class": "spot-div" });
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
                 var newH4 = $("<h4>").text(data[i].location);
-                var newImg = $("<img>").attr({ "src": data[i].path, "width": "200px", "height": "200px" });
                 var FavButton = $("<button>").text("Favorite").attr({"type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id});
                 var starSpan = $("<span>").attr({"class": "glyphicon glyphicon-star", "aria-hidden": "true"});
                 $(FavButton).append(starSpan);
                 var newP = $("<p>").text(data[i].description);
+                $(newDiv).append(header);
                 $(newDiv).append(newH4);
                 $(newDiv).append(newImg);
                 $(newDiv).append(FavButton);
                 $(newDiv).append(newP);
                 $("#spots-div").append(newDiv);
             }
+            var header = $("<h6>").text("DC Spots").attr("class", "spot-header")
+            $("#spots-div").prepend(header);
+            
             myMapLayer = L.layerGroup([])
                 .addTo(mymap);
 
@@ -346,24 +356,24 @@ $(document).ready(function () {
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
-
+            $("#spots-div").css("display", "block");
         });
 
 
 
     });
 
-    function renderData() {
-        for (var i = 0; i < data.length; i++) {
-            var newDiv = $("<div>").attr({ "data-spotId": data.id });
-            var newH4 = $("<h4>").text(data.location);
-            var newImg = $("<img>").attr({ "src": data.path, "width": "200px", "height": "200px" });
-            var newP = $("<p>").text(data.description);
-            $(newDiv).append(newH4);
-            $(newDiv).append(newImg);
-            $(newDiv).append(newP);
-            $("#spots-div").append(newDiv);
-        }
-    }
+    // function renderData() {
+    //     for (var i = 0; i < data.length; i++) {
+    //         var newDiv = $("<div>").attr({ "data-spotId": data.id });
+    //         var newH4 = $("<h4>").text(data.location);
+    //         var newImg = $("<img>").attr({ "src": data.path, "width": "auto", "height": "200px" });
+    //         var newP = $("<p>").text(data.description);
+    //         $(newDiv).append(newH4);
+    //         $(newDiv).append(newImg);
+    //         $(newDiv).append(newP);
+    //         $("#spots-div").append(newDiv);
+    //     }
+    // }
 
 });
