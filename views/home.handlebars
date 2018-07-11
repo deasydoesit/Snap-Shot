@@ -4,7 +4,7 @@
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse button-spot" id="navbarSupportedContent">
         <a class="navbar-brand" href="/logout">
             Logout
         </a>
@@ -29,10 +29,25 @@
         <button id="historical-button" type="button" class="btn btn-primary">
             historical
         </button>
+        <button id="sunrise-button" type="button" class="btn btn-success">
+            Sunrise
+        </button>
+        <button id="day-button" type="button" class="btn btn-success">
+            Day
+        </button>
+        <button id="sunset-button" type="button" class="btn btn-success">
+            Sunset
+        </button>
+        <button id="evening-button" type="button" class="btn btn-success">
+            Evening
+        </button>
     </div>
 </nav>
 <div id="mapid"></div>
-<div id="spots-div"></div>
+<div id="spots-sidebar">
+    <div id="spots-div"></div>
+    <div id="button-div"></div>
+</div> 
 <div class="modal fade" id="spotModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

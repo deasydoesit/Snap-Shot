@@ -125,7 +125,7 @@ module.exports = function (app) {
 
         var todArr = req.params.tod.split("+");
         var todObj = {
-            tod: todArr[i]
+            tod: todArr
         }
 
 
@@ -139,6 +139,23 @@ module.exports = function (app) {
             });
     });
 
+    app.get("/api/spots//:tod", function (req, res) {
+        
+        var todArr = req.params.tod.split("+");
+        var todObj = {
+            tod: todArr
+        }
+
+
+        db.Spot.findAll({
+            where: {
+                [Op.or]: todObj
+            }
+        })
+            .then(function (dbSpot) {
+                res.json(dbSpot);
+            });
+    });
     app.get("/api/spots/:type/:tod/popular", function (req, res) {
         var typeArr = req.params.type.split("+");
         var typeObj = {};
@@ -158,18 +175,25 @@ module.exports = function (app) {
 
 
 
-    app.put("/api/spots/:id/:userid", function (req, res) {
+    // app.put("/api/spots/1/:id", function (req, res) {
+    //     db.Spot.findById(req.params.id).then(Spot => {
+    //         return db.Spot.increment('popularity', { by: 1 })
+    //     })
+
+    // });
+
+    app.put("/api/spots/2/:id", function (req, res) {
         db.Spot.findById(req.params.id).then(Spot => {
-            return db.Spot.increment('popularity', { by: 1 })
+            return db.Spot.decrement('popularity', { by: 1 })
         })
 
     });
 
-    app.delete("/api/favorites/:id/:userid", function (req, res) {
+    app.delete("/api/favorites/:id", function (req, res) {
         db.Favorite.destroy({
             where: {
-                id: req.params.id,
-                user_id: req.params.userid
+                spot_id: req.params.id,
+                user_id: req.user.id
             }
         })
             .then(function (dbFavorites) {
@@ -177,4 +201,14 @@ module.exports = function (app) {
             });
     });
 
+    app.post("/api/favorites/:id", function (req, res) {
+        console.log(req.body);
+        db.Favorite.create({
+            user_id: req.user.id,
+            spot_id: req.params.id,
+            UserId: req.params.id
+        }).then(function(dbFavorites) {
+            res.json(dbfavorites);
+        });
+    });
 };

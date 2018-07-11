@@ -30,9 +30,9 @@ $(document).ready(function () {
     var lat;
     var lng;
 
-    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 12, scrollWheelZoom: false, zoomControl: false}); //initialize map
+    var mymap = L.map('mapid', { center: [38.9072, -77.0369], zoom: 12, scrollWheelZoom: false, zoomControl: false }); //initialize map
 
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', { 
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
@@ -40,19 +40,19 @@ $(document).ready(function () {
     }).addTo(mymap);
 
     L.control.zoom({ //position zoom buttons
-        position:'bottomleft'
+        position: 'bottomleft'
     }).addTo(mymap);
 
-    var offsetX = mymap.getSize().x*0.2; //offset center of the map to the left
-    var offsetY = mymap.getSize().y*0.1; //offset center of the map upwards
-    mymap.panBy(new L.Point(offsetX, offsetY), {animate: false}); //render map
+    var offsetX = mymap.getSize().x * 0.2; //offset center of the map to the left
+    var offsetY = mymap.getSize().y * 0.1; //offset center of the map upwards
+    mymap.panBy(new L.Point(offsetX, offsetY), { animate: false }); //render map
 
-    mymap.on('click', function() { //only enable map scrolling on map click
+    mymap.on('click', function () { //only enable map scrolling on map click
         if (mymap.scrollWheelZoom.enabled()) {
-          mymap.scrollWheelZoom.disable();
+            mymap.scrollWheelZoom.disable();
         }
         else {
-          mymap.scrollWheelZoom.enable();
+            mymap.scrollWheelZoom.enable();
         }
     });
 
@@ -167,6 +167,7 @@ $(document).ready(function () {
     }
 
     var categoryArr = [];
+    var todArr = [];
 
     // function concatType() {
     //     var plusString;
@@ -218,27 +219,86 @@ $(document).ready(function () {
                     .setContent('<div class="popupDiv">' +
                         '<h6>' + data[i].location + '</h6>' +
                         '<img src="' + data[i].path + '" width="100px" height="100px">' +
-                        '<p>' + 'Length: ' + data[i].description + ' miles' + '</p>' +
+                        '<p>' + data[i].description + '</p>' +
                         '</div>');
 
                 marker = new L.marker([data[i].lat, data[i].lng])
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
-            $("#spots-div").css("display", "block");
+            $("#spots-sidebar").css("display", "block");
+           
         });
 
     }
 
-    $(document).on("click", "#trendy-button", function () {
+    function getByToD() {
+        var plusString = '';
+
+        for (var i = 0; i < categoryArr.length; i++) {
+            if (i == 0) {
+                plusString = categoryArr[i];
+            } else {
+                plusString += "+" + categoryArr[i];
+            }
+        }
+        var plusString2 = '';
+
+        for (var i = 0; i < todArr.length; i++) {
+            if (i == 0) {
+                plusString2 = todArr[i];
+            } else {
+                plusString2 += "+" + todArr[i];
+            }
+        }
+        var queryURL = "/api/spots/" + plusString + "/" + plusString2;
+
+        $.ajax({
+            type: 'GET',
+            url: queryURL
+        }).then(function (data) {
+            mymap.removeLayer(myMapLayer);
+            for (var i = 0; i < data.length; i++) {
+                var newDiv = $("<div>").attr({ "data-spotId": data[i].id });
+                var newH4 = $("<h4>").text(data[i].location);
+                var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
+                var newP = $("<p>").text(data[i].description);
+                $(newDiv).append(newH4);
+                $(newDiv).append(newImg);
+                $(newDiv).append(newP);
+                $("#spots-div").append(newDiv);
+            }
+            myMapLayer = L.layerGroup([])
+                .addTo(mymap);
+
+            for (var i = 0; i < data.length; i++) {
+                var popup = L.popup({ className: 'popup' })
+                    .setContent('<div class="popupDiv">' +
+                        '<h6>' + data[i].location + '</h6>' +
+                        '<img src="' + data[i].path + '" width="100px" height="100px">' +
+                        '<p>' + data[i].description + '</p>' +
+                        '</div>');
+
+                marker = new L.marker([data[i].lat, data[i].lng])
+                    .bindPopup(popup)
+                    .addTo(myMapLayer);
+            }
+            $("#spots-sidebar").css("display", "block");
+           
+        });
+
+    }
+
+    $(".button-spot").on("click", "#trendy-button", function () {
         $("#spots-div").empty();
         categoryArr.push("trendy");
         console.log(categoryArr);
         getByType();
-        $("#spots-div").css("display", "block");
+        $("#spots-sidebar").css("display", "block");
+        $("#button-div").append($(this));
     });
 
-    $(document).on("click", "#historical-button", function () {
+    $(".button-spot").on("click", "#historical-button", function () {
         $("#spots-div").empty();
         categoryArr.push("historical");
         console.log(categoryArr);
@@ -284,37 +344,176 @@ $(document).ready(function () {
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
-            $("#spots-div").css("display", "block");
+            $("#spots-sidebar").css("display", "block");
         });
-
+        $("#button-div").append($(this));
     });
 
-    $(document).on("click", "#streetart-button", function () {
+    $(".button-spot").on("click", "#streetart-button", function () {
         $("#spots-div").empty();
         categoryArr.push("street_art");
         console.log(categoryArr);
         getByType();
         $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
     });
 
-    $(document).on("click", "#vista-button", function () {
+    $(".button-spot").on("click", "#vista-button", function () {
         $("#spots-div").empty();
         categoryArr.push("vista");
         console.log(categoryArr);
         getByType();
-        $("#spots-div").css("display", "block");
+        $("#spots-sidebar").css("display", "block");
+        $("#button-div").append($(this));
     });
 
-    $(document).on("click", "#nature-button", function () {
+    $(".button-spot").on("click", "#nature-button", function () {
         $("#spots-div").empty();
         categoryArr.push("nature");
         console.log(categoryArr);
         getByType();
+        $("#spots-sidebar").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#vista-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("vista");
+        categoryArr.splice(index, 1);
+        console.log(categoryArr);
+        getByType();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $("#button-div").on("click", "#historical-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("historical");
+        categoryArr.splice(index, 1);
+        console.log(categoryArr);
+        getByType();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $("#button-div").on("click", "#trendy-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("trendy");
+        categoryArr.splice(index, 1);
+        console.log(categoryArr);
+        getByType();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $("#button-div").on("click", "#nature-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("nature");
+        categoryArr.splice(index, 1);
+        console.log(categoryArr);
+        getByType();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $("#button-div").on("click", "#streetart-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("street_art");
+        categoryArr.splice(index, 1);
+        console.log(categoryArr);
+        getByType();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#sunrise-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Sunrise");
+        console.log(todArr);
+        getByToD();
         $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#sunrise-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Sunrise");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#day-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Day");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#day-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Day");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#sunset-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Sunset");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#sunset-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Sunset");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
+    });
+
+    $(".button-spot").on("click", "#evening-button", function () {
+        $("#spots-div").empty();
+        todArr.push("Evening");
+        console.log(todArr);
+        getByToD();
+        $("#spots-div").css("display", "block");
+        $("#button-div").append($(this));
+    });
+
+    $("#button-div").on("click", "#evening-button", function () {
+        $("#spots-div").empty();
+        var index = categoryArr.indexOf("Evening");
+        todArr.splice(index, 1);
+        console.log(todArr);
+        getByToD();
+        $("#spots-sidebar").css("display", "block");
+        $(".button-spot").append($(this));
     });
 
     $(document).on("click", "#global", function () {
 
+        $("#trendy-button").appendTo($(".button-spot"));
+        $("#streetart-button").appendTo($(".button-spot"));
+        $("#nature-button").appendTo($(".button-spot"));
+        $("#vista-button").appendTo($(".button-spot"));
+        $("#historical-button").appendTo($(".button-spot"));
+        $("#sunrise-button").appendTo($(".button-spot"));
+        $("#day-button").appendTo($(".button-spot"));
+        $("#sunset-button").appendTo($(".button-spot"));
+        $("#evening-button").appendTo($(".button-spot"));
+        categoryArr = [];
         $.ajax({
             type: 'GET',
             url: '/api/spots/'
@@ -327,8 +526,8 @@ $(document).ready(function () {
                 var newDiv = $("<div>").attr({ "data-spotId": data[i].id, "class": "spot-div" });
                 var newImg = $("<img>").attr({ "src": data[i].path, "width": "auto", "height": "200px" });
                 var newH4 = $("<h4>").text(data[i].location);
-                var FavButton = $("<button>").text("Favorite").attr({"type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id});
-                var starSpan = $("<span>").attr({"class": "glyphicon glyphicon-star", "aria-hidden": "true"});
+                var FavButton = $("<button>").text("Favorite").attr({ "type": "button", "class": "btn btn-default btn-large favorites", "data-id": data[i].id, "data-type": "unfav" });
+                var starSpan = $("<span>").attr({ "class": "glyphicon glyphicon-star", "aria-hidden": "true" });
                 $(FavButton).append(starSpan);
                 var newP = $("<p>").text(data[i].description);
                 $(newDiv).append(header);
@@ -340,7 +539,7 @@ $(document).ready(function () {
             }
             var header = $("<h6>").text("DC Spots").attr("class", "spot-header")
             $("#spots-div").prepend(header);
-            
+
             myMapLayer = L.layerGroup([])
                 .addTo(mymap);
 
@@ -356,24 +555,51 @@ $(document).ready(function () {
                     .bindPopup(popup)
                     .addTo(myMapLayer);
             }
-            $("#spots-div").css("display", "block");
+            $("#spots-sidebar").css("display", "block");
         });
+    });
 
+
+
+
+    $(document).on("click", ".favorites", function () {
+        if ($(this).data("type") == "unfav") {
+            $(this).text("Unfavorite").data("type", "fav");
+            var queryURL = "/api/favorites/" + $(this).data("id");
+            $.ajax({
+                type: 'POST',
+                url: queryURL
+            }).then(function (data) {
+                console.log(data);
+            });
+
+            var queryURL2 = "/api/spots/1/" + $(this).data("id");
+            $.ajax({
+                type: 'PUT',
+                url: queryURL2
+            }).then(function (data) {
+                console.log(data);
+            });
+        } else {
+            $(this).text("Favorite").data("type", "unfav");
+            var queryURL = "/api/favorites/" + $(this).data("id");
+            $.ajax({
+                type: 'DELETE',
+                url: queryURL
+            }).then(function (data) {
+                console.log(data);
+            });
+            var queryURL3 = "/api/spots/2/" + $(this).data("id");
+            $.ajax({
+                type: 'PUT',
+                url: queryURL3
+            }).then(function (data) {
+                console.log(data);
+            });
+        }
 
 
     });
 
-    // function renderData() {
-    //     for (var i = 0; i < data.length; i++) {
-    //         var newDiv = $("<div>").attr({ "data-spotId": data.id });
-    //         var newH4 = $("<h4>").text(data.location);
-    //         var newImg = $("<img>").attr({ "src": data.path, "width": "auto", "height": "200px" });
-    //         var newP = $("<p>").text(data.description);
-    //         $(newDiv).append(newH4);
-    //         $(newDiv).append(newImg);
-    //         $(newDiv).append(newP);
-    //         $("#spots-div").append(newDiv);
-    //     }
-    // }
-
 });
+

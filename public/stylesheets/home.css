@@ -22,7 +22,7 @@
         width: 100%;
     }
 
-    #spots-div {
+    #spots-sidebar {
         position: absolute;
         top: 9.5%;
         z-index: 1000;
@@ -30,16 +30,22 @@
         width: 35%;
         left: 64%;
         height: 87%;
-        overflow-y: auto;
         display: none;
     }
 
-    .spot-div {
+    #spots-div {
         width: 95%;
+        height: 80%;
+        overflow-y: auto;
         margin: 0 auto;
         padding-top: 5%;
         border-top: 2px solid #DCDCDC;
         
+    }
+
+    #button-div {
+        width: 95%;
+        height: 20%;
     }
 
     .spot-header {
